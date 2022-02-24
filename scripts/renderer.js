@@ -70,12 +70,19 @@ class Renderer {
         this.drawBezierCurve({x:250, y:250}, {x:100, y:300}, {x:100, y:400}, {x:250, y:450}, [0, 0, 0, 255], ctx);
 
         //draw h
-        this.drawLine({x:300, y:250}, {x:300, y:450}, [0, 0, 0, 255], ctx);
-        this.drawBezierCurve({x:300, y:300}, {x:305, y:350}, {x:375, y:375}, {x:375, y:250}, [0, 0, 0, 255], ctx);
+        for (var y=250; y<450; y=y+10) {this.drawCircle({x:300, y:y}, 5, [0, 0, 0, 255], ctx);}
+        
+        for (var t=0; t<=1; t=t+0.09)
+        {
+            var x = Math.pow((1-t),3) * 300 + 3 * Math.pow((1-t),2) * t * 305 + 3 * (1-t) * Math.pow(t,2) * 375 + Math.pow(t,3) * 369;
+            var y = Math.pow((1-t),3) * 300 + 3 * Math.pow((1-t),2) * t * 350 + 3 * (1-t) * Math.pow(t,2) * 375 + Math.pow(t,3) * 250;
+            this.drawCircle({x:x, y:y}, 5, [0, 0, 0, 255], ctx);
+        }
+        // this.drawBezierCurve({x:300, y:300}, {x:305, y:350}, {x:375, y:375}, {x:375, y:250}, [0, 0, 0, 255], ctx);
 
         //draw e
-        this.drawBezierCurve({x:475, y:250}, {x:365, y:265}, {x:455, y:400}, {x:475, y:300}, [0, 0, 0, 255], ctx);
         this.drawLine({x:420, y:300}, {x:475, y:300}, [0, 0, 0, 255], ctx);
+        this.drawBezierCurve({x:475, y:250}, {x:365, y:265}, {x:455, y:400}, {x:475, y:300}, [0, 0, 0, 255], ctx);
 
         //draw n
         this.drawLine({x:525, y:250}, {x:525, y:325}, [0, 0, 0, 255], ctx);
@@ -143,9 +150,13 @@ class Renderer {
         }
 
         
-        //draw points
+        //draw control points and lines between control points
         if (this.show_points)
         {
+            this.drawLine(pt0, pt1, [0, 0, 255, 255], ctx);
+            this.drawLine(pt1, pt2, [0, 0, 255, 255], ctx);
+            this.drawLine(pt2, pt3, [0, 0, 255, 255], ctx);
+
             this.drawPoint(pt0, [0, 0, 255, 255], ctx);
             this.drawPoint(pt1, [0, 0, 255, 255], ctx);
             this.drawPoint(pt2, [0, 0, 255, 255], ctx);
